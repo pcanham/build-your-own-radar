@@ -13,7 +13,7 @@ var DISCOVERY_DOCS = ['https://sheets.googleapis.com/$discovery/rest?version=v4'
 var SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 
 const GoogleAuth = function () {
-  const self = {}
+  const self = {};
   self.isAuthorizedCallbacks = []
   self.isLoggedIn = undefined
 
