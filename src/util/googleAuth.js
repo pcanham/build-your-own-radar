@@ -2,8 +2,8 @@
 const d3 = require('d3')
 
 // Client ID and API key from the Developer Console
-var CLIENT_ID = process.env.CLIENT_ID
-var API_KEY = process.env.API_KEY
+var CLIENT_ID = process.env.CLIENT_ID || ''
+var API_KEY = process.env.API_KEY || ''
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ['https://sheets.googleapis.com/$discovery/rest?version=v4']
@@ -18,10 +18,7 @@ const GoogleAuth = function () {
   self.isLoggedIn = undefined
 
   self._updateProfile = function () {
-    const profile = gapi.auth2
-      .getAuthInstance()
-      .currentUser.get()
-      .getBasicProfile()
+    const profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()
     if (!profile) {
       return
     }
@@ -95,23 +92,16 @@ const GoogleAuth = function () {
     gapi.auth2.getAuthInstance().signOut()
   }
 
-  self.geEmail = _ => {
+  self.geEmail = (_) => {
     const isLoggedIn = gapi.auth2.getAuthInstance().isSignedIn.get()
     if (isLoggedIn) {
-      return gapi.auth2
-        .getAuthInstance()
-        .currentUser.get()
-        .getBasicProfile()
-        .getEmail()
+      return gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail()
     }
   }
 
   self.login = function (callback, force = false) {
     if (force) {
-      gapi.auth2
-        .getAuthInstance()
-        .signIn({ prompt: 'select_account' })
-        .then(callback)
+      gapi.auth2.getAuthInstance().signIn({ prompt: 'select_account' }).then(callback)
       return
     }
 
@@ -119,10 +109,7 @@ const GoogleAuth = function () {
     if (isLoggedIn) {
       callback()
     } else {
-      gapi.auth2
-        .getAuthInstance()
-        .signIn()
-        .then(callback)
+      gapi.auth2.getAuthInstance().signIn().then(callback)
     }
   }
 
